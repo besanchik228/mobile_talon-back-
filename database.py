@@ -1,7 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+import os
 
-engine = create_engine('sqlite:///./database.db')
+engine = create_engine(os.getenv("data_adress"))
 
 session = sessionmaker(bind=engine)
 
