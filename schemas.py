@@ -7,12 +7,13 @@ from typing import Optional, List
 #LoginRequest - логин и пароль для входа
 #RegisterCanteenRequest - логин, пароль и гуо для регистрации столовой
 #RegisterTeacherRequest - логин, пароль, гуо, id столовой и название класса для регистрации учителя
-#GetUser - модель для получения юзера (хранится в базе данных)
-#TalonOut - модель для вывода талонов (хранится в базе данных)
+#GetUser - модель для получения юзера
+#TalonOut - модель для вывода талонов
 #Talon - модель для создания талона
 #Daily - модель для вывода дневных отчетов
 #DailySummary - модель для вывода суммарного отчета
 #DailyTable - модель для вывода таблицы дневных отчетов
+#WeeklyDayTable - модель для вывода дневного отчета в недельном отчете
 #WeeklyTable - модель для вывода таблицы недельных отчетов
 
 #-------- Auth --------
@@ -41,12 +42,18 @@ class RegisterTeacherRequest(BaseModel):
 class GetUser(BaseModel):
     id: int
     login: str
+    role: UserRole
     edu: str
     canteen_id: Optional[int] = None
     class_name: Optional[str] = None
 
     class Config:
         orm_mode = True
+
+class ProfileUpdate(BaseModel):
+    id: int
+    login: str
+
 
 #-------- Talons --------
 
@@ -85,7 +92,16 @@ class DailyTable(BaseModel):
     rows: List[DailyCanteen]
     summary: DailySummary
 
+class WeeklyDayTable(BaseModel):
+    date: date
+    total_paid: int
+    total_free: int
+    total_all: int
+
 class WeeklyTable(BaseModel):
     first_date: date
     second_date: date
     days: List[DailyTable]
+    grand_total_paid: int
+    grand_total_free: int
+    grand_total_all: int

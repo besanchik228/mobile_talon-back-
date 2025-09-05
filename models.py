@@ -13,6 +13,15 @@ class UserRole(str, enum.Enum):
 
 class User(Base):
     __tablename__ = "user"
+    #id (int) - id пользователя
+    #login (str) - логин пользователя
+    #hashed_password (str) - хэш пароля пользователя
+    #edu (str) - гуо пользователя
+    #role (UserRole) - роль пользователя
+    #class_name (str) - класс пользователя
+    #canteen_id (int) - id cтоловой, к которой относится пользователь
+
+
     id = Column(Integer, primary_key=True, index=True)
     login = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
@@ -27,6 +36,12 @@ class User(Base):
 
 class Talon(Base):
     __tablename__ = "talon"
+    #id (int) - id талона
+    #date (date) - дата талона
+    #paid_count (int) - количество оплаченных уроков
+    #free_count (int) - количество бесплатных уроков
+    #class_name (str) - класс, к которому относится талон
+    #teacher_id (int) - id учителя, которому принадлежит талон
 
     id = Column(Integer, primary_key=True, index=True)
     date = Column(Date, nullable=False)
