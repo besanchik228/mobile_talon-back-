@@ -7,7 +7,7 @@ from typing import Optional, List
 #LoginRequest - логин и пароль для входа
 #RegisterCanteenRequest - логин, пароль и гуо для регистрации столовой
 #RegisterTeacherRequest - логин, пароль, гуо, id столовой и название класса для регистрации учителя
-#GetUser - модель для получения юзера
+#UserPublic - модель для получения юзера
 #TalonOut - модель для вывода талонов
 #Talon - модель для создания талона
 #Daily - модель для вывода дневных отчетов
@@ -39,7 +39,7 @@ class RegisterTeacherRequest(BaseModel):
     canteen_id: int
     class_name: str
 
-class GetUser(BaseModel):
+class UserPublic(BaseModel):
     id: int
     login: str
     role: UserRole
