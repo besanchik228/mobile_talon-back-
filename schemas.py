@@ -1,68 +1,63 @@
 from datetime import date
-from pydantic import BaseModel, Field
-from schemas import UserRole
 from typing import Optional, List
+from pydantic import BaseModel, Field
+from models import UserRole
 
-#TokenResponde - просто токен и роль юзера
-#LoginRequest - логин и пароль для входа
-#RegisterCanteenRequest - логин, пароль и гуо для регистрации столовой
-#RegisterTeacherRequest - логин, пароль, гуо, id столовой и название класса для регистрации учителя
-#UserPublic - модель для получения юзера
-#TalonOut - модель для вывода талонов
-#Talon - модель для создания талона
-#Daily - модель для вывода дневных отчетов
-#DailySummary - модель для вывода суммарного отчета
-#DailyTable - модель для вывода таблицы дневных отчетов
-#WeeklyDayTable - модель для вывода дневного отчета в недельном отчете
-#WeeklyTable - модель для вывода таблицы недельных отчетов
 
-#-------- Auth --------
-
+# --------- Auth & Users ---------
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     role: UserRole
 
+
 class LoginRequest(BaseModel):
     login: str
     password: str
 
+
 class RegisterCanteenRequest(BaseModel):
     login: str
     password: str
-    edu: str
+    educational_institution: str
+
 
 class RegisterTeacherRequest(BaseModel):
     login: str
     password: str
-    edu: str
+    educational_institution: str
     canteen_id: int
     class_name: str
+
 
 class UserPublic(BaseModel):
     id: int
     login: str
     role: UserRole
-    edu: str
-    canteen_id: Optional[int] = None
+    educational_institution: str
     class_name: Optional[str] = None
+    canteen_id: Optional[int] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
 
 class ProfileUpdate(BaseModel):
-    id: int
-    login: str
+    educational_institution: Optional[str] = None
+    password: Optional[str] = Field(default=None, min_length=4)
+    # поля учителя:
+    class_name: Optional[str] = None
+    canteen_id: Optional[int] = None
 
 
-#-------- Talons --------
-
-class Talon(BaseModel):
+# --------- Tickets ---------
+class TicketCreate(BaseModel):
     date: Optional[date] = None
     paid_count: int = Field(ge=0)
     free_count: int = Field(ge=0)
 
-class TalonOut(BaseModel):
+
+class TicketOut(BaseModel):
     id: int
     date: date
     class_name: str
@@ -71,37 +66,40 @@ class TalonOut(BaseModel):
     total: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
-#-------- Out for canteen --------
 
-class Daily(BaseModel):
+    # --------- Aggregations ---------
+class CanteenDayRow(BaseModel):
     class_name: str
     paid_count: int
     free_count: int
     total: int
 
 
-class DailySummary(BaseModel):
+class CanteenDaySummary(BaseModel):
     total_paid: int
     total_free: int
     total_all: int
 
-class DailyTable(BaseModel):
-    date: date
-    rows: List[DailyCanteen]
-    summary: DailySummary
 
-class WeeklyDayTable(BaseModel):
+class CanteenDayResponse(BaseModel):
+    date: date
+    rows: List[CanteenDayRow]
+    summary: CanteenDaySummary
+
+
+class CanteenWeekDay(BaseModel):
     date: date
     total_paid: int
     total_free: int
     total_all: int
 
-class WeeklyTable(BaseModel):
-    first_date: date
-    second_date: date
-    days: List[DailyTable]
+
+class CanteenWeekResponse(BaseModel):
+    start_date: date
+    end_date: date
+    days: List[CanteenWeekDay]
     grand_total_paid: int
     grand_total_free: int
     grand_total_all: int
