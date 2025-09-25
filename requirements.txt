@@ -1,0 +1,16 @@
+# Web framework and server
+fastapi>=0.110,<0.120
+uvicorn[standard]>=0.24,<0.30
+
+# Data validation
+pydantic>=2.4,<3.0
+
+# ORM and database
+SQLAlchemy>=2.0,<2.1
+
+# Auth & security
+python-jose[cryptography]>=3.3,<4.0
+passlib[bcrypt]>=1.7,<2.0
+
+# Environment variables
+python-dotenv>=1.0,<2.0
