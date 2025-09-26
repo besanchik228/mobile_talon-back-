@@ -129,5 +129,3 @@ Content-Type: application/json
 ```
 
 ### И так далее(в папке examples_req)
-
-```
