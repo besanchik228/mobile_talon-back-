@@ -125,4 +125,9 @@ Content-Type: application/json
   "paid_count": 20,
   "free_count": 5
 }
+
+```
+
+### И так далее(в папке examples_req)
+
 ```
