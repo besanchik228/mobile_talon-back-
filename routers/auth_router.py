@@ -2,20 +2,19 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 # Импортируем вспомогательные функции для работы с аутентификацией
-from auth import create_access_token, verify_password, get_password_hash, get_user_by_login
+from auth import get_password_hash, get_user_by_login
 from database import get_db
 from models import User, UserRole
 from schemas import (
-    LoginRequest, TokenResponse,
     RegisterCanteenRequest, RegisterTeacherRequest,
     UserPublic
 )
 
 # Создаём роутер для всех эндпоинтов, связанных с аутентификацией
-router = APIRouter(prefix="/auth", tags=["auth"])
+router = APIRouter(prefix="/register", tags=["register"])
 
 
-@router.post("/register/canteen", response_model=UserPublic)
+@router.post("/canteen", response_model=UserPublic)
 def register_canteen(payload: RegisterCanteenRequest, db: Session = Depends(get_db)):
     """
     Регистрация пользователя с ролью 'canteen' (столовая).
@@ -39,7 +38,7 @@ def register_canteen(payload: RegisterCanteenRequest, db: Session = Depends(get_
     return user
 
 
-@router.post("/register/teacher", response_model=UserPublic)
+@router.post("/teacher", response_model=UserPublic)
 def register_teacher(payload: RegisterTeacherRequest, db: Session = Depends(get_db)):
     """
     Регистрация пользователя с ролью 'teacher' (учитель).
@@ -70,18 +69,18 @@ def register_teacher(payload: RegisterTeacherRequest, db: Session = Depends(get_
     return user
 
 
-@router.post("/login", response_model=TokenResponse)
-def login(payload: LoginRequest, db: Session = Depends(get_db)):
-    """
-    Авторизация пользователя.
-    - Проверяем, что пользователь существует.
-    - Сверяем пароль с хэшированным.
-    - Если всё верно — создаём JWT-токен с ролью пользователя.
-    - Возвращаем токен и роль.
-    """
-    user = get_user_by_login(db, payload.login)
-    if not user or not verify_password(payload.password, user.hashed_password):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid login or password")
-
-    token = create_access_token(subject=user.login, role=user.role)
-    return TokenResponse(access_token=token, role=user.role)
+# @router.post("/login", response_model=TokenResponse)
+# def login(payload: LoginRequest, db: Session = Depends(get_db)):
+#     """
+#     Авторизация пользователя.
+#     - Проверяем, что пользователь существует.
+#     - Сверяем пароль с хэшированным.
+#     - Если всё верно — создаём JWT-токен с ролью пользователя.
+#     - Возвращаем токен и роль.
+#     """
+#     user = get_user_by_login(db, payload.login)
+#     if not user or not verify_password(payload.password, user.hashed_password):
+#         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid login or password")
+#
+#     token = create_access_token(subject=user.login, role=user.role)
+#     return TokenResponse(access_token=token, role=user.role)

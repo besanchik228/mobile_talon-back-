@@ -13,10 +13,10 @@ from schemas import (
 )
 
 # Роутер для работы со статистикой талонов в столовой
-router = APIRouter(prefix="/talon", tags=["talon-canteen"])
+router = APIRouter(prefix="/canteen", tags=["talon-canteen"])
 
 
-@router.get("/canteen/day", response_model=CanteenDayResponse)
+@router.get("/day", response_model=CanteenDayResponse)
 def daily_view(
     dt: date = Query(default=date.today()),  # Дата для отчёта (по умолчанию — сегодня)
     db: Session = Depends(get_db),           # Сессия БД
@@ -72,7 +72,7 @@ def daily_view(
     return CanteenDayResponse(date=dt, rows=rows, summary=summary)
 
 
-@router.get("/canteen/week", response_model=CanteenWeekResponse)
+@router.get("/week", response_model=CanteenWeekResponse)
 def weekly_view(
     start: date = Query(default=None),       # Начальная дата недели (если не указана — последние 7 дней)
     db: Session = Depends(get_db),

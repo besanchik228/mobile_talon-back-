@@ -8,7 +8,7 @@ from models import Ticket
 from schemas import TicketCreate, TicketOut
 
 # Роутер для работы с талонами (учительская часть)
-router = APIRouter(prefix="/tickets", tags=["tickets-teacher"])
+router = APIRouter(prefix="/teacher", tags=["talon-teacher"])
 
 
 @router.post("/submit", response_model=TicketOut)
@@ -58,7 +58,7 @@ def submit_ticket(
     )
 
 
-@router.get("/teacher/week", response_model=list[TicketOut])
+@router.get("/week", response_model=list[TicketOut])
 def get_teacher_week(
     db: Session = Depends(get_db),
     teacher = Depends(require_teacher),
