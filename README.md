@@ -42,7 +42,8 @@ FastAPI‑приложение для управления школьными т
 │   ├── auth_router.py
 │   ├── profile_router.py
 │   ├── teacher_router.py
-│   └── canteen_router.py
+│   ├── canteen_router.py
+│   └── login_router.py
 ├── environ_init.py      # Конфигурация (SECRET_KEY, DB URL и т.д.)
 ├── database.db          # SQLite база (локально)
 └── .env                 # Переменные окружения
