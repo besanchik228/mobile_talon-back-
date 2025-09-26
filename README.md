@@ -116,7 +116,7 @@ Content-Type: application/json
 ### 2. Подача талона (учитель)
 
 ```http
-POST /tickets/submit
+POST /talon/submit
 Authorization: Bearer <token>
 Content-Type: application/json
 

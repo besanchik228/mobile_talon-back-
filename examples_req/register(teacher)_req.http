@@ -1,0 +1,10 @@
+POST /register/teacher
+Content-Type: application/json
+
+{
+  "login": "teacher_ivanova",
+  "password": "teacherpass456",
+  "educational_institution": "Гимназия №1 г. Бреста",
+  "class_name": "8В",
+  "canteen_id": 1
+}

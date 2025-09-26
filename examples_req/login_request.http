@@ -1,0 +1,9 @@
+POST /talon/submit
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "date": "2025-09-25",
+  "paid_count": 20,
+  "free_count": 5
+}

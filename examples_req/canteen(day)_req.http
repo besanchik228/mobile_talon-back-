@@ -1,0 +1,2 @@
+GET /canteen/day
+Authorization: Bearer <token>

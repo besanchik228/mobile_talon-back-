@@ -58,26 +58,31 @@ def submit_ticket(
     )
 
 
-@router.get("/week", response_model=list[TicketOut])
 def get_teacher_week(
     db: Session = Depends(get_db),
     teacher = Depends(require_teacher),
 ):
     """
-    Эндпоинт для получения списка талонов учителя за последние 7 дней.
-    - Формируется диапазон дат: сегодня и 6 предыдущих дней.
-    - Выбираются все талоны учителя за этот период.
-    - Результат сортируется по дате (от новых к старым).
+        Эндпоинт для получения списка талонов учителя за последние 7 дней.
+        - Формируется диапазон дат: сегодня и 6 предыдущих дней.
+        - Выбираются все талоны учителя за этот период.
+        - Результат сортируется по дате (от новых к старым).
     """
-
-    # Определяем диапазон дат (последние 7 дней)
     end = date.today()
     start = end - timedelta(days=6)
 
-    # Получаем все талоны учителя за неделю
     tickets = db.query(Ticket).filter(
         Ticket.teacher_id == teacher.id,
         Ticket.date.between(start, end)
     ).order_by(Ticket.date.desc()).all()
 
-    # Преобразуем объекты в список схем
+    return [
+        TicketOut(
+            id=t.id,
+            date=t.date,
+            class_name=t.class_name,
+            paid_count=t.paid_count,
+            free_count=t.free_count,
+            total=t.paid_count + t.free_count
+        ) for t in tickets
+    ]

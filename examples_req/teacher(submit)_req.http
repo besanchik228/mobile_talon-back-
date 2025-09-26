@@ -1,0 +1,9 @@
+POST /teacher/submit
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "paid_count": 25,
+  "free_count": 3,
+  "date": null
+}

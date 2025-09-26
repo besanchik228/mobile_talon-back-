@@ -1,0 +1,8 @@
+POST /register/canteen
+Content-Type: application/json
+
+{
+  "login": "canteen_school1",
+  "password": "securepassword123",
+  "educational_institution": "Гимназия №1 г. Бреста"
+}

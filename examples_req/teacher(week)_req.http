@@ -1,0 +1,2 @@
+GET /teacher/week
+Authorization: Bearer <token>

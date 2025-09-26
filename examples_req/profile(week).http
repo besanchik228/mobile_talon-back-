@@ -1,0 +1,10 @@
+PUT /profile/me
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "educational_institution": "Гимназия №1",
+  "password": "new_secure_password123",
+  "class_name": "8В",
+  "canteen_id": 42
+}
